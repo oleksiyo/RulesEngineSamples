@@ -73,6 +73,7 @@
     <Compile Include="AutoMoqDataAttribute.cs" />
     <Compile Include="PersonValidationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
