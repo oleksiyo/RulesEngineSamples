@@ -10,7 +10,7 @@
 
     public class Card
     {
-        public string PersonNumber { get; set; }
+        public Person Person { get; set; }
         public string CardNumber { get; set; }
         public bool Active { get; set; }
     }

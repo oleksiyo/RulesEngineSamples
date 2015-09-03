@@ -28,20 +28,22 @@ namespace RulesEngineSamplesTests
             modules.Count().Should().BeGreaterOrEqualTo(1);
         }
 
-       [Theory, NSubData]
+        [Theory, NSubData]
         public void should_be_valid(Person person)
-       {
-          var result = validator.Validate(person);
-           result.Success.Should().BeTrue();
-       }
+        {
+            person.Number = "123";
+            var result = validator.Validate(person);
+            result.Success.Should().BeTrue();
+        }
 
-       [Theory, NSubData]
-       public void should_be_not_valid(Person person)
-       {
-           person.Name = "";
-           var result = validator.Validate(person);
-           result.Success.Should().BeFalse();
-           result.Error.Should().Be("Name should not be empty");
-       }
+        [Theory, NSubData]
+        public void should_be_not_valid(Person person)
+        {
+            person.Number = "123";
+            person.Name = "";
+            var result = validator.Validate(person);
+            result.Success.Should().BeFalse();
+            result.Error.Should().Be("Name should not be empty");
+        }
     }
 }

@@ -14,13 +14,15 @@ namespace RulesEngineSamplesTests
 {
     public class PersonValidationTests
     {
-        private readonly PersonValidator validator;
+        private readonly PersonValidator personValidator;
+        private readonly Validator validator;
         readonly Engine engine = new Engine();
         private ValidationReport report;
         public PersonValidationTests()
-        {         
-            validator = new PersonValidator();
-            validator.Define(engine);
+        {
+            personValidator = new PersonValidator();
+            validator = new Validator();
+           // personValidator.Define(engine);
             report = new ValidationReport(engine);
         }
 
@@ -28,21 +30,53 @@ namespace RulesEngineSamplesTests
         [Fact]
         public void should_implement_interface_IValidationDefinition()
         {
-            validator.Should().BeAssignableTo<IValidationDefinition>();
+            personValidator.Should().BeAssignableTo<IValidationDefinition>();
         }
 
         [Theory, NSubData]
         public void name_should_be_not_empty(Person person)
         {
+            person.Number = "123";
             person.Name = "";
-            
-            var result = report.Validate(person);
-            var errorMsg = report.GetErrorMessages(person);
 
-            result.Should().BeFalse();
-            errorMsg.First().Should().Be("Name should not be empty");
+            var result = validator.Validate(person);
+
+            result.Success.Should().BeFalse();
+            result.Error.Should().Be("Name should not be empty");
         }
 
 
+        [Theory, NSubData]
+        public void person_number_should_be_not_empty(Person person)
+        {
+            person.Number = "";
+
+            var result = validator.Validate(person);
+
+            result.Success.Should().BeFalse();
+            result.Error.Should().Be("Person number should not be empty");
+        }
+
+        [Theory, NSubData]
+        public void should_be_valid_if_person_number_contain_only_digits(Person person)
+        {
+            person.Number = "12345";
+
+            var result = validator.Validate(person);
+
+            result.Success.Should().BeTrue();
+            result.Error.Should().Be("");
+        }
+
+        [Theory, NSubData]
+        public void should_be_not_valid_if_person_number_contain_not_only_digits(Person person)
+        {
+            person.Number = "12345A";
+
+            var result = validator.Validate(person);
+
+            result.Success.Should().BeFalse();
+            result.Error.Should().Be("Person number should contain only digits");
+        }
     }
 }

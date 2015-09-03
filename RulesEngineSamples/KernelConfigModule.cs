@@ -7,6 +7,7 @@ namespace RulesEngineSamples
         public override void Load()
         {
             Bind<IValidationDefinition>().To<PersonValidator>();
+            Bind<IValidationDefinition>().To<CardValidator>();
         }
     }
 }

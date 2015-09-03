@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CardValidator.cs" />
     <Compile Include="IValidationDefinition.cs" />
     <Compile Include="KernelConfigModule.cs" />
     <Compile Include="Person.cs" />

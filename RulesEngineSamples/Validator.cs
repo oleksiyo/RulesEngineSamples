@@ -44,16 +44,20 @@ namespace RulesEngineSamples
 
         public Result Validate(object obj)
         {
-            var errors = "";
+            var error = "";
             var valid = report.Validate(obj);
-            
+
             if (!valid)
-                errors = report.GetErrorMessages(obj).Aggregate((i, j) => i + ", " + j);
-              
+            {
+               var errors = report.GetErrorMessages();
+                if(errors.Any())
+                    error = report.GetErrorMessages().Aggregate((i, j) => i + ", " + j);
+            }
+
             return new Result
             {
                 Success = rulesEngine.Validate(obj),
-                Error = errors
+                Error = error
             };
         }
     }
